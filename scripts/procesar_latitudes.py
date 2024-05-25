@@ -84,4 +84,4 @@ print('**** LATITUDES BECRUX ****')
 for lat in lat_2:
     print(decimal_to_dms(lat))
 print('**** LATITUD PROMEDIO ****')
-print(average(lat_1, lat_2))
+print(decimal_to_dms(average(lat_1, lat_2)))
