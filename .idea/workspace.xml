@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c6eade2a-9422-4d6c-8643-a83e3ede5bfc" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/scripts/procesar_latitudes.py" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/procesar_latitudes.py" afterDir="false" />
-    </list>
+    <list default="true" id="c6eade2a-9422-4d6c-8643-a83e3ede5bfc" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
