@@ -7,8 +7,13 @@ cuyas declinaciones son: -64º 5' 57'' (Acrux) y -59º 41' 19'' (Becrux).
 
 Principal razón de la creación del programa es por el uso incompatible del sistema
 sexagesimal en planillas de excel. Por lo tanto, es preferible automatizar la tarea de cálculo.
-"""
 
+****USO****
+- Ubicar todas las mediciones (en orden) en altura1.txt y altura2.txt de cada estrella medida. 
+- Modificar valores de las declinaciones de las estrellas medidas (en sexagesimal): 
+    'decl1' para la estrella medida para 'altura1.txt' y decl2 para la estrella medida para 'altura2.txt'.
+- Modificar la función 'hallar_latitud()' con la ecuación correspondiente de la estrella a medir.
+"""
 
 # Conversión de sexagesimal (grados, minutos y segundos) a decimal
 def dms_to_decimal(value):
