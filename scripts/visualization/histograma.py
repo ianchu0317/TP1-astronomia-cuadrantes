@@ -69,7 +69,7 @@ print(eje_y)
 print(eje_x)
 
 # Graficar
-fig, ax = plt.subplots(figsize=(14, 5), layout='constrained')
+fig, ax = plt.subplots(figsize=(14, 7), layout='constrained')
 plt.bar(eje_x + 0.5, eje_y, width=1, edgecolor='black')
 
 # Configuraciones de ejes
