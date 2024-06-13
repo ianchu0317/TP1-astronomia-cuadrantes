@@ -1,11 +1,10 @@
 """
 Programa para realizar histograma (gráfico en barra)
 con valores de latitudes promedios obtenidas por cada grupo.
-Eje X de histograma van los grupos.
-Eje Y de histograma van los valores de latitudes promedios.
+Eje X de histograma van los intervalos (clase).
+Eje Y de histograma van la cantidad de grupo que obtuvo el intervalo (frecuencia).
 
-Los valores de grupos y sus latitudes se cargan de los archivos
-'grupos_latitudes.txt' y 'latitudes.txt' respectivamente.
+Los sus latitudes se cargan del archivo 'latitudes.txt'.
 """
 
 import matplotlib.pyplot as plt
@@ -13,85 +12,76 @@ import numpy as np
 
 
 # Función para cargar datos desde archivo
-def cargar_datos(filename):
+def load_data(filename):
     with open(filename, 'r') as file:
         data = file.read()
     data = data.split()
     return data
 
 
-# Función para limpiar datos
-def limpiar_datos(datas):
-    clean_data = []
-    for data in datas:
-        if data == '-':
-            clean_data.append(float(0))
-        else:
-            clean_data.append(float(data.replace(',', '.')))
-    return np.array(clean_data)
+# Limpiar datos
+def data_frequency(my_list):
+    # Números límites
+    current_number = max(my_list)
+    max_item = min(my_list)
+
+    # Nuevas variables
+    step = 0.25  # intervalo
+    freq_list = []
+
+    # Loop interval 0.25 between -31, -38.25
+    while current_number + step > max_item:
+        freq_count = 0
+        for element in my_list:
+            if current_number >= element > current_number - step:
+                freq_count += 1
+                # print(freq_count)
+
+        # print(current_number, freq_count)
+        freq_list.append(freq_count)
+        # new_dict.update({f'{(current_number, current_number - step)}': freq_count})
+        current_number -= step
+
+    return freq_list
 
 
 # Cargar datos
-latitudes = cargar_datos('latitudes.txt')
-grupos = cargar_datos('grupos_latitudes.txt')
-incertezas = cargar_datos('incertezas.txt')
+latitudes = load_data('latitudes.txt')
+grupos_total = len(latitudes)  # cantidad total de grupos
 
-# Limpieza y conversión de dato
-latitudes = limpiar_datos(latitudes)
-incertezas = limpiar_datos(incertezas)
+# Limpieza, conversión y organización de dato
+latitudes = np.array([float(data.replace(',', '.')) for data in latitudes])
 
-# valores de incertezas máximas y mínimas
-max_latitudes = latitudes - incertezas
-min_latitudes = latitudes + incertezas
-
-# Constantes de gráfico
-lat_max = -43
-lat_min = -29
-latitud_ba = -34.61315
-
-# Posiciones de barras
-bar_width = 0.25
-br1 = np.arange(len(grupos))
-br2 = [x - bar_width for x in br1]
-br3 = [x + bar_width for x in br1]
-# x_rect = np.linspace(0, 21, 100)
-# y_rect = np.zeros(len(x_rect))
-# y_rect = [latitud_ba + y for y in y_rect]
-
-# Eje Y
-y_ticks = np.arange(lat_max, lat_min, 0.25)
-y_elements = []
+# Datos para graficar
+eje_x_label = np.arange(-31, -38.5, -0.25)  # clase
+x_label = []
 counter = 0
-for element in y_ticks:
+for x in eje_x_label:
     if counter % 2 == 0:
-        y_elements.append(element)
+        x_label.append(x)
     else:
-        y_elements.append('')
+        x_label.append('')
     counter += 1
+eje_x = np.arange(0, len(eje_x_label), 1)  # clase
+eje_y = data_frequency(latitudes)  # frecuencia
 
-fig, ax = plt.subplots(figsize=(12, 9), layout='constrained')
+print(eje_y)
+print(eje_x)
 
-# Plots
-plt.bar(br1, latitudes, width=bar_width, color='blue', align='center', label='Latitud promedia')
-plt.bar(br2, min_latitudes, width=bar_width, color='red', align='center', label='Latitud promedia + incerteza')
-plt.bar(br3, max_latitudes, width=bar_width, color='violet', align='center', label='Latitud promedia - incerteza')
-# plt.plot(x_rect, y_rect, color='black', label='Latitud de Buenos Aires')
+# Graficar
+fig, ax = plt.subplots(figsize=(14, 5), layout='constrained')
+plt.bar(eje_x + 0.5, eje_y, width=1, edgecolor='black')
 
 # Configuraciones de ejes
-plt.ylim((lat_min, lat_max))
-# ax.yaxis.set_ticks(y_ticks, y_elements)
-ax.yaxis.set_ticks(y_ticks)
-ax.xaxis.set_ticks(br1, grupos)
+plt.ylim((min(eje_y), max(eje_y)+1))
+ax.xaxis.set_ticks(eje_x, eje_x_label)
 
-# Título y nombre
-ax.set_ylabel('Latitud promedio [º]')
-ax.set_xlabel('Número de grupo')
-ax.set_title('Histograma de latitudes por grupo', fontsize=14)
+# Configuración de título
+ax.set_ylabel('Cantidad de grupos', fontsize=10)
+ax.set_xlabel('Latitud [º] (intervalo de 0.25º)', fontsize=10)
 
-plt.grid(linestyle=':', linewidth=0.65)
-plt.legend()
+ax.set_title('Histograma con la distribución estadística de los valores de la latitud obtenidos por todos los grupos', fontsize=16)
 
-# Render
+ax.grid(True, linestyle='--', linewidth=0.4)
 plt.savefig('histograma.png')
 plt.show()
-
