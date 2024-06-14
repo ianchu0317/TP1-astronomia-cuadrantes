@@ -1,4 +1,4 @@
-\documentclass[12pt, a4paper]{article} % Formato del documento
+\documentclass[11pt, a4paper]{article} % Formato del documento
 \usepackage[spanish, english]{babel} % Idiomas
 \usepackage{amsfonts, amsmath, amssymb} % Símbolos matemáticos
 \usepackage{hyperref} % Referencias
@@ -7,7 +7,11 @@
 \usepackage{tikz} % Insertar gráficos
 \usepackage{siunitx} % Insertar ángulos
 \usepackage{apacite}  % Citaciones en formato apa
-\usepackage[a4paper, total={6in, 9in}]{geometry} % Márgenes y tamaño del documento
+\usepackage[a4paper, top=30mm, bottom=20mm, left=30mm, right=30mm]{geometry} % Márgenes y tamaño del documento
+\usepackage{caption} % Para subfiguras
+\usepackage{subcaption}
+\usepackage{setspace} % Interlineado
+\usepackage{fancyhdr}
 
 % Reference settings
 \hypersetup{
@@ -20,6 +24,11 @@
     pdfpagemode=FullScreen,
 }
 
+% Header
+\fancyhead[LH]{TP1 Astronomía cuadrantes}
+\fancyhead[RH]{TP1 Astronomía cuadrantes}
+
+
 % Información del documento
 \title{Trabajo Práctico Nº1 \\ Cuadrante astronómico}
 \author{Lola Cavalieri e Ian Chen}
@@ -30,7 +39,7 @@
 \begin{document}
 \selectlanguage{spanish}
 \maketitle
-
+\onehalfspacing
 \vspace{1cm}
 % RESUMEN Y ABSTRACT
 \begin{abstract}
@@ -58,14 +67,14 @@ Estos temas fueron dados durante la cursada, y el Trabajo Práctico propone como
 \section{Desarrollo experimental}
 Para ubicarnos geográficamente utilizamos en primer momento la aplicación “Google Maps”, en su función de brújula, por sobre nuestros conocimientos previos tomando en cuenta que el observatorio se encuentra en la zona de microcentro, y el Río de la Plata (visible desde el punto de observación) se encuentra al este. Además contamos con la información proporcionada por la docente a cargo de la posición aproximada del Polo Sur Celeste (PSC) en el cielo desde el lugar de observación. Luego se procedió a ubicar el “Meridiano del Lugar”, el cual es el meridiano celeste que contiene tanto los polos celestes como el Cenit y Nadir. Este es importante para el análisis de este trabajo ya que las estrellas elegidas para la observación (Acrux y Becrux) debían estar cerca del mismo, puesto que de esta forma se podría relacionar los dos tipos de sistemas (acimutal y ecuatorial) en un mismo plano, y generar ecuaciones que involucren declinación y altura de las estrellas. 
 
-La deducción de las fórmulas que relaciona la latitud del lugar con la declinación de una estrella y su altura en la culminación superior daban seis casos posibles (3 por cada hemisferio): que la estrella esté entre el horizonte y el Ecuador Celeste, entre el Ecuador celeste y el Polo celeste, y entre el Polo celeste y el Horizonte. Estas 6 ecuaciones se pueden hallar en el siguiente \href{https://github.com/ianchu0317/TP1-astronomia-cuadrantes/blob/main/files/ecuaciones_latitudes.pdf}{documento}. 
+La deducción de las fórmulas que relaciona la latitud del lugar con la declinación de una estrella y su altura en la culminación superior daban seis casos posibles (3 por cada hemisferio): que la estrella esté entre el horizonte y el Ecuador Celeste, entre el Ecuador celeste y el Polo celeste, y entre el Polo celeste y el Horizonte. Estas 6 ecuaciones se pueden hallar en el apéndice del documento. 
 Para nuestro caso utilizamos la ecuación del caso en el que la estrella se encuentra entre Ecuador Celeste y Polo Sur Celeste como se observa en Figura 1:
 
 % -----------IMAGEN ECUACIONES------------
 \selectlanguage{english}
 \begin{figure}[H]
     \centering
-    \begin{tikzpicture}
+    \begin{tikzpicture}[scale=1]
     % Circunferencia
     \draw[black, thick] (0,0) circle (3);
     
@@ -163,17 +172,219 @@ Esto valida la efectividad de la utilización de métodos tradicionales y antigu
 El hecho de que la latitud hallada pueda ser aproximada a la actual indica que se aplicaron de manera correcta no sólo la parte instrumental sino que también la teórica al poder aplicar conocimientos astronómicos y relacionarlas matemáticamente para formular ecuaciones, y finalmente hallar una latitud aproximada. 
 
 En conclusión, fue un trabajo que abordó distintos temas y aspectos del trabajo científico, el cual ayudó a profundizar temas básicos de astronomía y la utilización práctica por fuera de lo teórico para aplicarlo en la vida cotidiana.
-
+\hfill
 
 %---------------------------
+\singlespacing
 \section{Apéndice}
-\subsection{Ecuación de latitud}
-Deducción de la ecuación correspondiente para hallar latitud $\phi$ en este caso:
+\subsection{Ecuaciones de latitud según ubicación de la estrella}
+
+\selectlanguage{english}
+%----------SUR-----------
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}{0.3\textwidth}
+        \begin{tikzpicture}[scale=0.8]
+            % Circunferencia
+            \draw[black, thick] (0,0) circle (2);
+            
+            % Rectas / Líneas
+            \draw[black, very thin] (-2, 0) -- (2, 0) node[anchor=west]{H};
+            \draw[black, very thin] (-1.65, -1.19) -- (1.65, 1.19) node[anchor=south west]{PSC};
+            \draw[black, very thin]  (1.19, -1.65) -- (-1.19, 1.65)  node[anchor=south east]{EC};
+            % Línea roja
+            \draw[red!70, dashed] (0,0) -- (-1.76, 0.93);
+        
+            % Arcos
+            % Declinación
+            \draw[cyan!40, very thick, ->] (-1.17, 1.74) arc (124:150:2.1) node[midway, left]{$\delta$};
+            % Altura h
+            \draw[blue!40, very thick, ->] (-2.1, 0) arc (180:158:2.1) node[midway, left]{$h$};
+            \draw[black, thick, ->] (1, 0) arc (0:34:1) node[midway, right]{$\varphi$};
+            
+            % % Cuadrados
+            \draw[black, very thin, rotate around={34:(0,0)}] (0,0) rectangle (0.3, 0.35);
+        
+            % % Puntos
+            \filldraw[fill=black!50, draw=black!50] (0,0) circle (0.1);
+            % Estrella a 152º
+            \filldraw[fill=yellow, draw=yellow] (-1.76, 0.93) circle (0.1); 
+        \end{tikzpicture}
+        \caption{$\varphi = h + \delta - \ang{90}$}
+    \end{subfigure}
+    \hspace{0.1cm}
+    \hfill
+    \begin{subfigure}{0.3\textwidth}
+        \begin{tikzpicture}[scale=0.8]
+            % Circunferencia
+            \draw[black, thick] (0,0) circle (2);
+            
+            % Rectas / Líneas
+            \draw[black, very thin] (-2, 0) -- (2, 0) node[anchor=west]{H};
+            \draw[black, very thin] (-1.65, -1.19) -- (1.65, 1.19) node[anchor=south west]{PSC};
+            \draw[black, very thin]  (1.19, -1.65) -- (-1.19, 1.65)  node[anchor=south east]{EC};
+            % Línea roja
+            \draw[red!70, dashed] (0,0) -- (0, 2);
+        
+            % Arcos
+            % Declinación
+            \draw[cyan!40, very thick, ->] (-1.17, 1.74) arc (124:94:2.1) node[midway, above]{$\delta$};
+            % Altura h
+            \draw[blue!40, very thick, ->] (2.1, 0) arc (0:86:2.1) node[midway, above]{$h$};
+            \draw[black, thick, ->] (1, 0) arc (0:34:1) node[midway, right]{$\varphi$};
+            
+            % % Cuadrados
+            \draw[black, very thin, rotate around={34:(0,0)}] (0,0) rectangle (0.3, 0.35);
+        
+            % % Puntos
+            \filldraw[fill=black!50, draw=black!50] (0,0) circle (0.1);
+            % Estrella a 90º
+            \filldraw[fill=yellow, draw=yellow] (0, 2) circle (0.1); 
+        \end{tikzpicture}
+        \caption{$\varphi = \ang{90} + \delta - h$}
+    \end{subfigure}
+    % \hspace{0.05cm}
+    \hfill
+    \begin{subfigure}{0.3\textwidth}
+        \begin{tikzpicture}[scale=0.8]
+            % Circunferencia
+            \draw[black, thick] (0,0) circle (2);
+            
+            % Rectas / Líneas
+            \draw[black, very thin] (-2, 0) -- (2, 0) node[anchor=west]{H};
+            \draw[black, very thin] (-1.65, -1.19) -- (1.65, 1.19) node[anchor=south west]{PSC};
+            \draw[black, very thin]  (1.19, -1.65) -- (-1.19, 1.65)  node[anchor=south east]{EC};
+            % Línea roja
+            \draw[red!70, dashed] (0,0) -- (1.91, 0.58);
+        
+            % Arcos
+            % Declinación
+            \draw[cyan!40, very thick, ->] (1.17, -1.74) arc (-56:13:2.1) node[midway, below]{$\delta$};
+            % Altura h
+            \draw[blue!40, very thick, ->] (1.9, 0) arc (0:13:1.9) node[midway, left]{$h$};
+            \draw[black, thick, ->] (1, 0) arc (0:34:1) node[midway, right]{$\varphi$};
+            
+            % % Cuadrados
+            \draw[black, very thin, rotate around={34:(0,0)}] (0,0) rectangle (0.3, 0.35);
+        
+            % % Puntos
+            \filldraw[fill=black!50, draw=black!50] (0,0) circle (0.1);
+            % Estrella a 17º
+            \filldraw[fill=yellow, draw=yellow] (1.91, 0.58) circle (0.1); 
+        \end{tikzpicture}
+        \caption{$\varphi = \delta - h - \ang{90}$}
+    \end{subfigure}  
+    \caption{Ecuaciones de latitud en hemisferio sur}
+    \label{fig:lat-hemisferio-sur}
+\end{figure}
+
+
+%----------NORTE-------------
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}{0.3\textwidth}
+        \begin{tikzpicture}[scale=0.8]
+            % Circunferencia
+            \draw[black, thick] (0,0) circle (2);
+            
+            % Rectas / Líneas
+            \draw[black, very thin] (-2, 0) -- (2, 0) node[anchor=west]{H};
+            \draw[black, very thin] (-1.65, -1.19) -- (1.65, 1.19) node[anchor=south west]{PNC};
+            \draw[black, very thin]  (1.19, -1.65) -- (-1.19, 1.65)  node[anchor=south east]{EC};
+            % Línea roja
+            \draw[red!70, dashed] (0,0) -- (-1.76, 0.93);
+        
+            % Arcos
+            % Declinación
+            \draw[cyan!40, very thick, ->] (-1.17, 1.74) arc (124:150:2.1) node[midway, left]{$\delta$};
+            % Altura h
+            \draw[blue!40, very thick, ->] (-2.1, 0) arc (180:158:2.1) node[midway, left]{$h$};
+            \draw[black, thick, ->] (1, 0) arc (0:34:1) node[midway, right]{$\varphi$};
+            
+            % % Cuadrados
+            \draw[black, very thin, rotate around={34:(0,0)}] (0,0) rectangle (0.3, 0.35);
+        
+            % % Puntos
+            \filldraw[fill=black!50, draw=black!50] (0,0) circle (0.1);
+            % Estrella a 152º
+            \filldraw[fill=yellow, draw=yellow] (-1.76, 0.93) circle (0.1); 
+        \end{tikzpicture}
+        \caption{$\varphi = \ang{90} + \delta - h$}
+    \end{subfigure}
+    \hspace{0.1cm}
+    \hfill
+    \begin{subfigure}{0.3\textwidth}
+        \begin{tikzpicture}[scale=0.8]
+            % Circunferencia
+            \draw[black, thick] (0,0) circle (2);
+            
+            % Rectas / Líneas
+            \draw[black, very thin] (-2, 0) -- (2, 0) node[anchor=west]{H};
+            \draw[black, very thin] (-1.65, -1.19) -- (1.65, 1.19) node[anchor=south west]{PNC};
+            \draw[black, very thin]  (1.19, -1.65) -- (-1.19, 1.65)  node[anchor=south east]{EC};
+            % Línea roja
+            \draw[red!70, dashed] (0,0) -- (0, 2);
+        
+            % Arcos
+            % Declinación
+            \draw[cyan!40, very thick, ->] (-1.17, 1.74) arc (124:94:2.1) node[midway, above]{$\delta$};
+            % Altura h
+            \draw[blue!40, very thick, ->] (2.1, 0) arc (0:86:2.1) node[midway, above]{$h$};
+            \draw[black, thick, ->] (1, 0) arc (0:34:1) node[midway, right]{$\varphi$};
+            
+            % % Cuadrados
+            \draw[black, very thin, rotate around={34:(0,0)}] (0,0) rectangle (0.3, 0.35);
+        
+            % % Puntos
+            \filldraw[fill=black!50, draw=black!50] (0,0) circle (0.1);
+            % Estrella a 90º
+            \filldraw[fill=yellow, draw=yellow] (0, 2) circle (0.1); 
+        \end{tikzpicture}
+        \caption{$\varphi = h + \delta -\ang{90}$}
+    \end{subfigure}
+    % \hspace{0.05cm}
+    \hfill
+    \begin{subfigure}{0.3\textwidth}
+        \begin{tikzpicture}[scale=0.8]
+            % Circunferencia
+            \draw[black, thick] (0,0) circle (2);
+            
+            % Rectas / Líneas
+            \draw[black, very thin] (-2, 0) -- (2, 0) node[anchor=west]{H};
+            \draw[black, very thin] (-1.65, -1.19) -- (1.65, 1.19) node[anchor=south west]{PNC};
+            \draw[black, very thin]  (1.19, -1.65) -- (-1.19, 1.65)  node[anchor=south east]{EC};
+            % Línea roja
+            \draw[red!70, dashed] (0,0) -- (1.91, 0.58);
+        
+            % Arcos
+            % Declinación
+            \draw[cyan!40, very thick, ->] (1.17, -1.74) arc (-56:13:2.1) node[midway, below]{$\delta$};
+            % Altura h
+            \draw[blue!40, very thick, ->] (1.9, 0) arc (0:13:1.9) node[midway, left]{$h$};
+            \draw[black, thick, ->] (1, 0) arc (0:34:1) node[midway, right]{$\varphi$};
+            
+            % % Cuadrados
+            \draw[black, very thin, rotate around={34:(0,0)}] (0,0) rectangle (0.3, 0.35);
+        
+            % % Puntos
+            \filldraw[fill=black!50, draw=black!50] (0,0) circle (0.1);
+            % Estrella a 17º
+            \filldraw[fill=yellow, draw=yellow] (1.91, 0.58) circle (0.1); 
+        \end{tikzpicture}
+        \caption{$\varphi = \ang{90} + h - \delta$}
+    \end{subfigure}  
+    \caption{Ecuaciones de latitud en hemisferio norte}
+    \label{fig:lat-hemisferio-norte}
+\end{figure}
+\selectlanguage{spanish}
+
+\subsection{Deducción de fórmula de latitud utilizada}
+Deducción de la ecuación correspondiente para hallar latitud $\varphi$ en este caso Figura 5b:
 \begin{align*}
-    |h|-|\phi| &= \ang{90}-|\delta| \\
-    |\phi| &= -\ang{90}+|h|+|\delta| \\
-    -\phi &= -\ang{90} + h - \delta \\
-    \phi &= \ang{90} + \delta - h
+    |h|-|\varphi| &= \ang{90}-|\delta| \\
+    |\varphi| &= -\ang{90}+|h|+|\delta| \\
+    -\varphi &= -\ang{90} + h - \delta \\
+    \varphi &= \ang{90} + \delta - h
 \end{align*}
 Para hallar valor de latitud para cada valor de altura se utilizó un script en Python que se encuentra en el \href{https://github.com/ianchu0317/TP1-astronomia-cuadrantes/tree/main}{repositorio de GitHub}.
 
@@ -191,6 +402,7 @@ Incerteza de promedio de latitud
 
 \vspace{0.5cm}
 %----------------------------
+\hline
 \bibliographystyle{apacite}
 \bibliography{bibliografia}
 \begin{itemize}
